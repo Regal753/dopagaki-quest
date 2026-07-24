@@ -8,11 +8,32 @@ updates:
       time: "03:00"
       timezone: Asia/Tokyo
     open-pull-requests-limit: 5
+    allow:
+      - dependency-type: production
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-patch
+      - dependency-type: development
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-patch
     groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
       production:
+        applies-to: version-updates
         dependency-type: production
+        update-types:
+          - minor
+          - patch
       development:
+        applies-to: version-updates
         dependency-type: development
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: github-actions
     directory: /
     schedule:
