@@ -52,7 +52,8 @@ function splitQuest(input: string): Quest[] {
 }
 
 export default function Home() {
-  const [data, setData] = useState<SaveData>({ xp: 72, streak: 3, chests: 0, quests: starterQuests, date: todayKey() });
+  const [data, setData] = useState<SaveData>({ xp: 72, streak: 3, chests: 0, quests: starterQuests, date: "" });
+  const [todayLabel, setTodayLabel] = useState("今日");
   const [input, setInput] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [toast, setToast] = useState("");
@@ -61,14 +62,21 @@ export default function Home() {
 
   useEffect(() => {
     const restore = window.setTimeout(() => {
+      const currentDate = todayKey();
+      setTodayLabel(currentDate);
       const raw = localStorage.getItem(STORAGE_ID);
+      let restored = false;
       if (raw) {
         try {
           const saved = JSON.parse(raw) as SaveData;
-          setData(saved.date === todayKey() ? saved : { ...saved, date: todayKey(), quests: starterQuests.map((q) => ({ ...q, done: false })) });
+          setData(saved.date === currentDate ? saved : { ...saved, date: currentDate, quests: starterQuests.map((q) => ({ ...q, done: false })) });
+          restored = true;
         } catch {
           localStorage.removeItem(STORAGE_ID);
         }
+      }
+      if (!restored) {
+        setData((current) => ({ ...current, date: currentDate }));
       }
       setLoaded(true);
     }, 0);
@@ -145,6 +153,7 @@ export default function Home() {
             <span aria-hidden="true">🔥</span> {data.streak}
           </button>
         </header>
+        <p className="beta-note">公開β・登録不要・進捗はこの端末だけに保存</p>
 
         <div id="top" className="hero">
           <div className="level-row">
@@ -156,7 +165,7 @@ export default function Home() {
           </div>
           <div className="xp-track" aria-label={`レベル進捗 ${levelXp}%`}><span style={{ width: `${levelXp}%` }} /></div>
           <div className="hero-copy">
-            <p>{todayKey()} のミッション</p>
+            <p>{todayLabel} のミッション</p>
             <h1>脳が逃げる前に、<br /><em>1個だけ倒せ。</em></h1>
           </div>
         </div>
@@ -165,9 +174,9 @@ export default function Home() {
           <label htmlFor="quest">やることを雑に投げる</label>
           <div>
             <input id="quest" value={input} onChange={(event) => setInput(event.target.value)} placeholder="例：部屋を片付ける" autoComplete="off" />
-            <button type="submit" aria-label="AIでクエスト化">クエスト化 <span aria-hidden="true">↗</span></button>
+            <button type="submit" aria-label="クエスト化">クエスト化 <span aria-hidden="true">↗</span></button>
           </div>
-          <p><span aria-hidden="true">✦</span> AIが「今すぐ動けるサイズ」に勝手に分解</p>
+          <p><span aria-hidden="true">✦</span> 内容に応じて「今すぐ動けるサイズ」へ分解</p>
         </form>
 
         <section className="quest-section" aria-labelledby="quest-title">
@@ -215,6 +224,10 @@ export default function Home() {
           <button type="button" onClick={() => flash("戦績画面は次版で解放")}><span aria-hidden="true">◫</span>戦績</button>
           <button type="button" onClick={() => flash("装備画面は次版で解放")}><span aria-hidden="true">♢</span>装備</button>
         </nav>
+        <footer className="public-footer">
+          <span>データ送信なし・localStorage保存</span>
+          <a href="https://github.com/Regal753/dopagaki-quest/issues" target="_blank" rel="noreferrer">不具合を報告</a>
+        </footer>
       </section>
 
       {toast && <div className="toast" role="status">{toast}</div>}

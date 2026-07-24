@@ -1,0 +1,32 @@
+name: β版の不具合報告
+description: DOPA QUEST公開β版の表示・操作・保存に関する不具合
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: 入力したタスク本文や個人情報は貼らず、再現に必要な範囲だけ記載してください。
+  - type: textarea
+    id: symptom
+    attributes:
+      label: 症状
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: OS・ブラウザ
+      placeholder: iPhone / Safari など
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+    validations:
+      required: true

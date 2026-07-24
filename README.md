@@ -2,6 +2,8 @@
 
 「脳が逃げる前に、1個だけ倒せ。」を核にした、日本向け人生RPGタスクアプリのMVPです。
 
+**公開β版:** https://regal753.github.io/dopagaki-quest/
+
 ## 初版で検証する体験
 
 - やることを雑に1行入力する
@@ -28,6 +30,11 @@ npm run dev
 npm run lint
 npm run build
 node --test tests/rendered-html.test.mjs
+
+$env:GITHUB_PAGES = "true"
+$env:NEXT_PUBLIC_SITE_URL = "https://regal753.github.io/dopagaki-quest/"
+npm run build:pages
+npm run test:pages
 ```
 
 ## 次に測る数字
@@ -40,6 +47,14 @@ node --test tests/rendered-html.test.mjs
 
 ## GitHub運用
 
-初期検証中はprivate repositoryで扱います。変更は`codex/*`からDraft
-PRにし、CIでlint・build・rendered HTML testを通します。公開ライセンスは
-未決定のため、現時点では第三者への再配布やpublic化を前提にしません。
+公開β版はGitHub Pagesから配信します。変更は`codex/*`からPull Requestにし、
+CIでlint・Cloudflare向けbuild・rendered HTML test・Pages向け静的exportを
+通します。
+
+- アカウント登録なし
+- 入力内容と進捗はブラウザの`localStorage`だけに保存
+- アプリ側サーバーへのタスク本文・進捗送信なし
+- 不具合はGitHub Issue Formで受け付け
+
+公開ライセンスは未決定です。明示的な`LICENSE`が追加されるまで、第三者への
+複製・改変・再配布許諾は付与されません。
