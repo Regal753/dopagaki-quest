@@ -22,7 +22,7 @@ jobs:
       GITHUB_PAGES: "true"
       NEXT_PUBLIC_SITE_URL: "https://regal753.github.io/dopagaki-quest/"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
