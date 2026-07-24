@@ -23,7 +23,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: "https://regal753.github.io/dopagaki-quest/"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: npm
